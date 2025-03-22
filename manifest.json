@@ -10,13 +10,13 @@
     "tabGroups"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "dist/background.js"
   },
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["content.js"],
-      "css": ["styles.css"]
+      "js": ["dist/content.js"],
+      "css": ["dist/styles.css"]
     }
   ],
   "action": {
