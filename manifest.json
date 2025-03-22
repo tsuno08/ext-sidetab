@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Side Tab",
+  "version": "1.0",
+  "description": "開いているタブを左側にリッチなUIで表示し、タブグループの管理も可能にする拡張機能",
+  "permissions": [
+    "tabs",
+    "scripting",
+    "storage",
+    "tabGroups"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ],
+  "action": {
+    "default_title": "Side Tab",
+    "default_icon": {
+      "16": "images/icon.png",
+      "48": "images/icon.png",
+      "128": "images/icon.png"
+    }
+  },
+  "icons": {
+    "16": "images/icon.png",
+    "48": "images/icon.png",
+    "128": "images/icon.png"
+  }
+}

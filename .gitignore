@@ -1,0 +1,37 @@
+# 依存関係
+node_modules/
+package-lock.json
+yarn.lock
+
+# ビルド出力
+styles.css
+dist/
+build/
+
+# エディタ/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Chrome拡張機能関連
+*.crx
+*.pem
+*.zip
+
+# ログ
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 環境変数
+.env
+.env.local
+.env.*.local
+
+# キャッシュ
+.cache/
+.temp/
+.tmp/
