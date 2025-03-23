@@ -1,7 +1,7 @@
 import { Message } from "./types";
 
 // タブ情報を取得してcontent.jsに送信
-function sendTabsToContentScript(): void {
+const sendTabsToContentScript = (): void => {
   chrome.tabs.query({}, (tabs) => {
     // タブグループ情報を取得
     chrome.tabGroups.query({}, (groups) => {
@@ -37,7 +37,7 @@ function sendTabsToContentScript(): void {
 }
 
 // タブの並び替え
-async function reorderTabs(sourceId: number, targetId: number): Promise<void> {
+const reorderTabs = async (sourceId: number, targetId: number): Promise<void> => {
   const tabs = await chrome.tabs.query({});
   const sourceIndex = tabs.findIndex((tab) => tab.id === sourceId);
   const targetIndex = tabs.findIndex((tab) => tab.id === targetId);
