@@ -1,0 +1,85 @@
+/* サイドバーの基本スタイル */
+#side-tab-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 280px;
+  height: 100vh;
+  background-color: rgb(248 250 252);
+  border-right: 1px solid rgb(226 232 240);
+  overflow-y: auto;
+  z-index: 50;
+}
+
+/* タブグループのスタイル */
+.tab-group {
+  margin-bottom: 0.5rem;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  background-color: rgb(241 245 249);
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.group-title {
+  font-weight: 500;
+}
+
+.group-count {
+  font-size: 0.875rem;
+  color: rgb(107 114 128);
+}
+
+.group-content {
+  padding-left: 1rem;
+}
+
+/* タブ要素のスタイル */
+.tab-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+
+.tab-item:hover {
+  background-color: rgb(241 245 249);
+}
+
+.tab-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+}
+
+.tab-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 検索バーのスタイル */
+.search-bar {
+  padding: 1rem;
+  border-bottom: 1px solid rgb(226 232 240);
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgb(226 232 240);
+  border-radius: 0.375rem;
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(59 130 246);
+} 
