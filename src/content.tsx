@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Tab, TabGroup, Message } from "./types";
+import "./styles.css";
 
 const TabElement: React.FC<{ tab: Tab }> = ({ tab }) => {
   const handleClick = () => {
@@ -38,7 +39,7 @@ const TabElement: React.FC<{ tab: Tab }> = ({ tab }) => {
 
   return (
     <div
-      className="flex items-center p-2 hover:bg-tab-hover rounded cursor-pointer"
+      className="tab-item"
       draggable
       onClick={handleClick}
       onDragStart={handleDragStart}
@@ -49,9 +50,9 @@ const TabElement: React.FC<{ tab: Tab }> = ({ tab }) => {
       <img
         src={tab.favIconUrl || "images/default-icon.png"}
         alt=""
-        className="w-4 h-4 mr-2"
+        className="tab-icon"
       />
-      <span className="flex-1 truncate">{tab.title}</span>
+      <span className="tab-title">{tab.title}</span>
     </div>
   );
 };
@@ -60,18 +61,16 @@ const TabGroup: React.FC<{ group: TabGroup }> = ({ group }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className="mb-2">
+    <div className="tab-group">
       <div
-        className="flex items-center justify-between p-2 bg-group-header rounded-t cursor-pointer"
+        className="group-header"
         onClick={() => setIsCollapsed(!isCollapsed)}
       >
-        <span className="font-medium">{group.title || "未分類"}</span>
-        <span className="text-sm text-gray-500">
-          {group.tabs.length}個のタブ
-        </span>
+        <span className="group-title">{group.title || "未分類"}</span>
+        <span className="group-count">{group.tabs.length}個のタブ</span>
       </div>
       {!isCollapsed && (
-        <div className="pl-4">
+        <div className="group-content">
           {group.tabs.map((tab) => (
             <TabElement key={tab.id} tab={tab} />
           ))}
@@ -121,12 +120,12 @@ const Sidebar: React.FC = () => {
   );
 
   return (
-    <div className="fixed left-0 top-0 w-sidebar h-screen bg-sidebar-bg border-r border-sidebar-border overflow-y-auto z-50">
-      <div className="p-4 border-b border-sidebar-border">
+    <div id="side-tab-sidebar">
+      <div className="search-bar">
         <input
           type="text"
           placeholder="タブを検索..."
-          className="w-full px-3 py-2 border border-sidebar-border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="search-input"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />

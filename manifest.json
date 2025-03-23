@@ -16,7 +16,7 @@
     {
       "matches": ["*://*/*"],
       "js": ["dist/content.js"],
-      "css": ["dist/styles.css"]
+      "css": ["dist/style.css"]
     }
   ],
   "action": {
