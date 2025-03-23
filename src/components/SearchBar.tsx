@@ -1,9 +1,9 @@
 import React from "react";
 
-interface SearchBarProps {
+type SearchBarProps = {
   value: string;
   onChange: (value: string) => void;
-}
+};
 
 export const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
   return (

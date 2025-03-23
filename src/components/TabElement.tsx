@@ -1,9 +1,9 @@
 import React from "react";
 import { Tab, Message } from "../types";
 
-interface TabElementProps {
+type TabElementProps = {
   tab: Tab;
-}
+};
 
 export const TabElement: React.FC<TabElementProps> = ({ tab }) => {
   const handleClick = () => {
