@@ -1,5 +1,5 @@
 import React from "react";
-import { Tab, Message } from "../types";
+import { Tab, Message, MESSAGE_TYPE } from "../types";
 
 type TabElementProps = {
   tab: Tab;
@@ -32,7 +32,7 @@ export const TabElement: React.FC<TabElementProps> = ({ tab }) => {
     const sourceTabId = parseInt(e.dataTransfer.getData("text/plain"));
     if (sourceTabId !== tab.id) {
       chrome.runtime.sendMessage({
-        type: "REORDER_TABS",
+        type: MESSAGE_TYPE.REORDER_TABS,
         sourceId: sourceTabId,
         targetId: tab.id,
       } as Message);

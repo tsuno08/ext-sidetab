@@ -1,4 +1,4 @@
-import { Message } from "./types";
+import { Message, MESSAGE_TYPE } from "./types";
 
 // タブ情報を取得してcontent.jsに送信
 function sendTabsToContentScript(): void {
@@ -9,7 +9,11 @@ function sendTabsToContentScript(): void {
       const tabsWithGroups = tabs.map((tab) => {
         const group = groups.find((g) => g.id === tab.groupId);
         return {
-          ...tab,
+          id: tab.id!,
+          title: tab.title!,
+          url: tab.url!,
+          favIconUrl: tab.favIconUrl,
+          groupId: tab.groupId?.toString(),
           groupTitle: group ? group.title : "未分類",
         };
       });
@@ -19,7 +23,7 @@ function sendTabsToContentScript(): void {
         if (tab.id) {
           chrome.tabs
             .sendMessage(tab.id, {
-              type: "UPDATE_TABS",
+              type: MESSAGE_TYPE.UPDATE_TABS,
               tabs: tabsWithGroups,
             } as Message)
             .catch(() => {
