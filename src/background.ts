@@ -1,4 +1,4 @@
-import { Message, MESSAGE_TYPE } from "./types";
+import { Message } from "./types";
 
 // タブ情報を取得してcontent.jsに送信
 function sendTabsToContentScript(): void {
@@ -23,9 +23,9 @@ function sendTabsToContentScript(): void {
         if (tab.id) {
           chrome.tabs
             .sendMessage(tab.id, {
-              type: MESSAGE_TYPE.UPDATE_TABS,
+              type: "UPDATE_TABS",
               tabs: tabsWithGroups,
-            } as Message)
+            })
             .catch(() => {
               // メッセージ送信に失敗した場合は無視
               // （content scriptが読み込まれていないタブなど）
