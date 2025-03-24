@@ -1,11 +1,11 @@
 import React from "react";
 import { ITab, IMessage } from "../types";
 
-type ITabElementProps = {
+type ITabProps = {
   tab: ITab;
 };
 
-export const TabElement: React.FC<ITabElementProps> = ({ tab }) => {
+export const Tab: React.FC<ITabProps> = ({ tab }) => {
   const handleClick = () => {
     chrome.runtime.sendMessage({
       type: "ACTIVATE_TAB",
