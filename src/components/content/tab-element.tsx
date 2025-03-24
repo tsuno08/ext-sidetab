@@ -1,16 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { ITab, IMessage } from "../../types";
+import { TabMenu } from "./tab-menu";
 
 type ITabElementProps = {
   tab: ITab;
 };
 
 export const TabElement: React.FC<ITabElementProps> = ({ tab }) => {
-  const handleClick = () => {
-    chrome.runtime.sendMessage({
-      type: "ACTIVATE_TAB",
-      tabId: tab.id,
-    } as IMessage);
+  const [menuPosition, setMenuPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (e.button === 0) {
+      // 左クリック
+      chrome.runtime.sendMessage({
+        type: "ACTIVATE_TAB",
+        tabId: tab.id,
+      } as IMessage);
+    }
+  };
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setMenuPosition({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleMenuClose = () => {
+    setMenuPosition(null);
   };
 
   const handleDragStart = (e: React.DragEvent) => {
@@ -40,21 +58,27 @@ export const TabElement: React.FC<ITabElementProps> = ({ tab }) => {
   };
 
   return (
-    <div
-      className="tab-item"
-      draggable
-      onClick={handleClick}
-      onDragStart={handleDragStart}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
-    >
-      <img
-        src={tab.favIconUrl || "images/default-icon.png"}
-        alt=""
-        className="tab-icon"
-      />
-      <span className="tab-title">{tab.title}</span>
-    </div>
+    <>
+      <div
+        className="tab-item"
+        draggable
+        onClick={handleClick}
+        onContextMenu={handleContextMenu}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
+        <img
+          src={tab.favIconUrl || "images/default-icon.png"}
+          alt=""
+          className="tab-icon"
+        />
+        <span className="tab-title">{tab.title}</span>
+      </div>
+      {menuPosition && (
+        <TabMenu tab={tab} position={menuPosition} onClose={handleMenuClose} />
+      )}
+    </>
   );
 };

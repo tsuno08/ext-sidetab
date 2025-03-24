@@ -57,19 +57,44 @@ const reorderTabs = async (
 };
 
 // タブの更新を処理
-chrome.runtime.onMessage.addListener((message: IMessage, _sender, _) => {
-  if (message.type === "GET_TABS") {
-    sendTabsToContentScript();
-  } else if (message.type === "ACTIVATE_TAB" && message.tabId) {
-    chrome.tabs.update(message.tabId, { active: true });
-  } else if (
-    message.type === "REORDER_TABS" &&
-    message.sourceId &&
-    message.targetId
-  ) {
-    reorderTabs(message.sourceId, message.targetId);
+chrome.runtime.onMessage.addListener(
+  (message: IMessage, sender, sendResponse) => {
+    switch (message.type) {
+      case "GET_TABS":
+        chrome.tabs.query({}, (tabs) => {
+          const tabList = tabs.map((tab) => ({
+            id: tab.id!,
+            title: tab.title!,
+            url: tab.url!,
+            favIconUrl: tab.favIconUrl,
+            groupId: tab.groupId,
+          }));
+          sendResponse({ type: "UPDATE_TABS", tabs: tabList });
+        });
+        return true;
+
+      case "ACTIVATE_TAB":
+        chrome.tabs.update(message.tabId, { active: true });
+        break;
+
+      case "REORDER_TABS":
+        chrome.tabs.move(message.sourceId, { index: message.targetId });
+        break;
+
+      case "CLOSE_TAB":
+        chrome.tabs.remove(message.tabId);
+        break;
+
+      case "NEW_TAB":
+        chrome.tabs.create({});
+        break;
+
+      case "UPDATE_SETTINGS":
+        chrome.storage.sync.set({ settings: message.settings });
+        break;
+    }
   }
-});
+);
 
 // タブが更新されたときに通知
 chrome.tabs.onUpdated.addListener(() => {

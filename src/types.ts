@@ -22,7 +22,9 @@ export type IMessage =
       sourceId: number;
       targetId: number;
     }
-  | { type: "UPDATE_SETTINGS"; settings: ISettings };
+  | { type: "UPDATE_SETTINGS"; settings: ISettings }
+  | { type: "CLOSE_TAB"; tabId: number }
+  | { type: "NEW_TAB" };
 
 export type ISettings = {
   sidebarWidth: number;

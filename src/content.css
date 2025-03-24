@@ -126,4 +126,42 @@
 .search-input:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgb(59 130 246);
+}
+
+.tab-menu {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 4px 0;
+  min-width: 160px;
+}
+
+.dark-mode .tab-menu {
+  background-color: rgb(17 24 39);
+  border-color: rgb(75 85 99);
+}
+
+.menu-item {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  color: #000000;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dark-mode .menu-item {
+  color: #ffffff;
+}
+
+.menu-item:hover {
+  background-color: #f3f4f6;
+}
+
+.dark-mode .menu-item:hover {
+  background-color: rgb(55 65 81);
 } 
