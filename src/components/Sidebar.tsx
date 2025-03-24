@@ -8,10 +8,7 @@ export const Sidebar: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    chrome.runtime.sendMessage({ type: "GET_TABS" } as Message);
-  }, []);
-
-  useEffect(() => {
+    chrome.runtime.sendMessage({ type: "GET_TABS" });
     const messageListener = (message: Message) => {
       if (message.type === "UPDATE_TABS" && message.tabs) {
         setTabs(message.tabs);
@@ -45,11 +42,9 @@ export const Sidebar: React.FC = () => {
   return (
     <div id="side-tab-sidebar">
       <SearchBar value={searchQuery} onChange={setSearchQuery} />
-      <div className="p-2">
-        {Object.values(groups).map((group) => (
-          <TabGroupComponent key={group.id} group={group} />
-        ))}
-      </div>
+      {Object.values(groups).map((group) => (
+        <TabGroupComponent key={group.id} group={group} />
+      ))}
     </div>
   );
 };
