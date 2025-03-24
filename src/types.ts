@@ -1,4 +1,4 @@
-export type Tab = {
+export type ITab = {
   id: number;
   title: string;
   url: string;
@@ -7,24 +7,24 @@ export type Tab = {
   groupTitle?: string;
 };
 
-export type TabGroup = {
+export type ITabGroup = {
   id: string;
   title: string;
-  tabs: Tab[];
+  tabs: ITab[];
 };
 
-export type Message =
+export type IMessage =
   | { type: "GET_TABS" }
-  | { type: "UPDATE_TABS"; tabs: Tab[] }
+  | { type: "UPDATE_TABS"; tabs: ITab[] }
   | { type: "ACTIVATE_TAB"; tabId: number }
   | {
       type: "REORDER_TABS";
       sourceId: number;
       targetId: number;
     }
-  | { type: "UPDATE_SETTINGS"; settings: Settings };
+  | { type: "UPDATE_SETTINGS"; settings: ISettings };
 
-export type Settings = {
+export type ISettings = {
   sidebarWidth: number;
   darkMode: boolean;
   fontSize: number;

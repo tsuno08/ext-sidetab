@@ -1,4 +1,4 @@
-import { Message } from "./types";
+import { IMessage } from "./types";
 
 // タブ情報を取得してcontent.jsに送信
 const sendTabsToContentScript = (): void => {
@@ -34,10 +34,13 @@ const sendTabsToContentScript = (): void => {
       });
     });
   });
-}
+};
 
 // タブの並び替え
-const reorderTabs = async (sourceId: number, targetId: number): Promise<void> => {
+const reorderTabs = async (
+  sourceId: number,
+  targetId: number
+): Promise<void> => {
   const tabs = await chrome.tabs.query({});
   const sourceIndex = tabs.findIndex((tab) => tab.id === sourceId);
   const targetIndex = tabs.findIndex((tab) => tab.id === targetId);
@@ -51,10 +54,10 @@ const reorderTabs = async (sourceId: number, targetId: number): Promise<void> =>
 
   // タブリストを更新
   sendTabsToContentScript();
-}
+};
 
 // タブの更新を処理
-chrome.runtime.onMessage.addListener((message: Message, _sender, _) => {
+chrome.runtime.onMessage.addListener((message: IMessage, _sender, _) => {
   if (message.type === "GET_TABS") {
     sendTabsToContentScript();
   } else if (message.type === "ACTIVATE_TAB" && message.tabId) {

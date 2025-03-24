@@ -2,11 +2,11 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { Sidebar } from "./components/Sidebar";
 import "./content.css";
-import { Message, Settings } from "./types";
+import { IMessage, ISettings } from "./types";
 import { getSettings } from "./utils/storage";
 
 // メインの処理
-const init = async () => {
+async function init() {
   const html = document.documentElement;
   html.style.display = "flex"; // display: flexを設定
 
@@ -20,10 +20,10 @@ const init = async () => {
   // 設定を読み込んで適用
   const settings = await getSettings();
   applySettings(settings);
-};
+}
 
 // 設定を適用する関数
-const applySettings = (settings: Settings) => {
+function applySettings(settings: ISettings) {
   const html = document.documentElement;
   const div = document.getElementById("side-tab-sidebar");
   if (div) {
@@ -32,10 +32,10 @@ const applySettings = (settings: Settings) => {
   html.style.marginLeft = `${settings.sidebarWidth}px`;
   html.style.fontSize = `${settings.fontSize}px`;
   html.classList.toggle("dark-mode", settings.darkMode);
-};
+}
 
 // メッセージリスナーを設定
-chrome.runtime.onMessage.addListener((message: Message) => {
+chrome.runtime.onMessage.addListener((message: IMessage) => {
   if (message.type === "UPDATE_SETTINGS") {
     applySettings(message.settings);
   }

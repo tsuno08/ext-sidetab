@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { TabGroup as TabGroupType } from "../types";
+import { ITabGroup } from "../types";
 import { TabElement } from "./TabElement";
 
-type TabGroupProps = {
-  group: TabGroupType;
+type ITabGroupProps = {
+  group: ITabGroup;
 };
 
-export const TabGroup: React.FC<TabGroupProps> = ({ group }) => {
+export const TabGroup: React.FC<ITabGroupProps> = ({ group }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (

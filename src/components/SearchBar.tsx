@@ -1,11 +1,11 @@
 import React from "react";
 
-type SearchBarProps = {
+type ISearchBarProps = {
   value: string;
   onChange: (value: string) => void;
 };
 
-export const SearchBar: React.FC<SearchBarProps> = ({ value, onChange }) => {
+export const SearchBar: React.FC<ISearchBarProps> = ({ value, onChange }) => {
   return (
     <div className="search-bar">
       <input

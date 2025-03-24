@@ -1,16 +1,16 @@
 import React from "react";
-import { Tab, Message } from "../types";
+import { ITab, IMessage } from "../types";
 
-type TabElementProps = {
-  tab: Tab;
+type ITabElementProps = {
+  tab: ITab;
 };
 
-export const TabElement: React.FC<TabElementProps> = ({ tab }) => {
+export const TabElement: React.FC<ITabElementProps> = ({ tab }) => {
   const handleClick = () => {
     chrome.runtime.sendMessage({
       type: "ACTIVATE_TAB",
       tabId: tab.id,
-    } as Message);
+    } as IMessage);
   };
 
   const handleDragStart = (e: React.DragEvent) => {
@@ -35,7 +35,7 @@ export const TabElement: React.FC<TabElementProps> = ({ tab }) => {
         type: "REORDER_TABS",
         sourceId: sourceTabId,
         targetId: tab.id,
-      } as Message);
+      } as IMessage);
     }
   };
 

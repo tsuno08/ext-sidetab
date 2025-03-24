@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Settings, Message } from "../types";
+import { ISettings, IMessage } from "../types";
 import { getSettings, updateSettings } from "../utils/storage";
 
 export const Popup: React.FC = () => {
-  const [settings, setSettings] = useState<Settings>({
+  const [settings, setSettings] = useState<ISettings>({
     sidebarWidth: 280,
     darkMode: false,
     fontSize: 14,
@@ -18,8 +18,8 @@ export const Popup: React.FC = () => {
   }, []);
 
   const handleChange = async (
-    key: keyof Settings,
-    value: Settings[keyof Settings]
+    key: keyof ISettings,
+    value: ISettings[keyof ISettings]
   ) => {
     const newSettings = { ...settings, [key]: value };
     setSettings(newSettings);
@@ -30,7 +30,7 @@ export const Popup: React.FC = () => {
     }
 
     // コンテンツスクリプトに設定変更を通知
-    const message: Message = {
+    const message: IMessage = {
       type: "UPDATE_SETTINGS",
       settings: newSettings,
     };
