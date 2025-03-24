@@ -9,6 +9,18 @@
   border-right: 1px solid rgb(226 232 240);
   overflow-y: auto;
   z-index: 50;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* ダークモードのスタイル */
+.dark-mode #side-tab-sidebar {
+  background-color: rgb(17 24 39);
+  border-color: rgb(75 85 99);
+}
+
+.dark-mode {
+  background-color: rgb(17 24 39);
+  color: rgb(243 244 246);
 }
 
 /* タブグループのスタイル */
@@ -25,6 +37,11 @@
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
   cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dark-mode .group-header {
+  background-color: rgb(31 41 55);
 }
 
 .group-title {
@@ -34,6 +51,10 @@
 .group-count {
   font-size: 0.875rem;
   color: rgb(107 114 128);
+}
+
+.dark-mode .group-count {
+  color: rgb(156 163 175);
 }
 
 .group-content {
@@ -47,10 +68,15 @@
   padding: 0.5rem;
   cursor: pointer;
   border-radius: 0.25rem;
+  transition: background-color 0.3s;
 }
 
 .tab-item:hover {
   background-color: rgb(241 245 249);
+}
+
+.dark-mode .tab-item:hover {
+  background-color: rgb(31 41 55);
 }
 
 .tab-icon {
@@ -70,6 +96,11 @@
 .search-bar {
   padding: 1rem;
   border-bottom: 1px solid rgb(226 232 240);
+  transition: border-color 0.3s;
+}
+
+.dark-mode .search-bar {
+  border-color: rgb(75 85 99);
 }
 
 .search-input {
@@ -77,6 +108,15 @@
   padding: 0.5rem 0.75rem;
   border: 1px solid rgb(226 232 240);
   border-radius: 0.375rem;
+  background-color: white;
+  color: rgb(31 41 55);
+  transition: all 0.3s;
+}
+
+.dark-mode .search-input {
+  background-color: rgb(31 41 55);
+  border-color: rgb(75 85 99);
+  color: rgb(243 244 246);
 }
 
 .search-input:focus {

@@ -1,22 +1,46 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Sidebar } from "./components/Sidebar";
-import "./styles.css";
+import "./content.css";
+import { Message, Settings } from "./types";
+import { getSettings } from "./utils/storage";
 
 // メインの処理
 function init() {
   const html = document.documentElement;
+  html.style.display = "flex"; // display: flexを設定
+
   const sidebarContainer = document.createElement("div");
   sidebarContainer.id = "side-tab-root";
   html.insertBefore(sidebarContainer, html.firstChild);
 
-  // メインコンテンツを右にシフト
-  html.style.display = "flex";
-  html.style.marginLeft = "280px";
-
   const root = createRoot(sidebarContainer);
   root.render(<Sidebar />);
+
+  // 設定を読み込んで適用
+  getSettings().then((settings) => {
+    applySettings(settings);
+  });
 }
+
+// 設定を適用する関数
+function applySettings(settings: Settings) {
+  const html = document.documentElement;
+  const div = document.getElementById("side-tab-sidebar");
+  if (div) {
+    div.style.width = `${settings.sidebarWidth}px`;
+  }
+  html.style.marginLeft = `${settings.sidebarWidth}px`;
+  html.style.fontSize = `${settings.fontSize}px`;
+  html.classList.toggle("dark-mode", settings.darkMode);
+}
+
+// メッセージリスナーを設定
+chrome.runtime.onMessage.addListener((message: Message) => {
+  if (message.type === "UPDATE_SETTINGS") {
+    applySettings(message.settings);
+  }
+});
 
 // 初期化の実行
 init();

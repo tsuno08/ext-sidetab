@@ -5,17 +5,16 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: "dist",
+    emptyOutDir: false,
+    copyPublicDir: false,
     rollupOptions: {
-      input: {
-        content: "./src/content.tsx",
-        background: "./src/background.ts",
-      },
+      input: "./src/content.tsx",
       output: {
         entryFileNames: "[name].js",
         format: "es",
         assetFileNames: "[name].css",
       },
     },
-    cssCodeSplit: false,
+    cssCodeSplit: true,
   },
 });

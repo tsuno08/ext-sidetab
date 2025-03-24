@@ -16,11 +16,12 @@
     {
       "matches": ["*://*/*"],
       "js": ["dist/content.js"],
-      "css": ["dist/style.css"]
+      "css": ["dist/content.css"]
     }
   ],
   "action": {
     "default_title": "Side Tab",
+    "default_popup": "public/popup.html",
     "default_icon": {
       "16": "images/icon.png",
       "48": "images/icon.png",
