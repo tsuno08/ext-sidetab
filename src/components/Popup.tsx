@@ -10,10 +10,11 @@ export const Popup: React.FC = () => {
   });
 
   useEffect(() => {
-    getSettings().then((s) => {
+    (async () => {
+      const s = await getSettings();
       setSettings(s);
       document.body.classList.toggle("dark-mode", s.darkMode);
-    });
+    })();
   }, []);
 
   const handleChange = async (
@@ -33,11 +34,10 @@ export const Popup: React.FC = () => {
       type: "UPDATE_SETTINGS",
       settings: newSettings,
     };
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]?.id) {
-        chrome.tabs.sendMessage(tabs[0].id, message);
-      }
-    });
+    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (tabs[0]?.id) {
+      await chrome.tabs.sendMessage(tabs[0].id, message);
+    }
   };
 
   return (

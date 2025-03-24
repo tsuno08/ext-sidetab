@@ -6,7 +6,7 @@ import { Message, Settings } from "./types";
 import { getSettings } from "./utils/storage";
 
 // メインの処理
-function init() {
+async function init() {
   const html = document.documentElement;
   html.style.display = "flex"; // display: flexを設定
 
@@ -18,9 +18,8 @@ function init() {
   root.render(<Sidebar />);
 
   // 設定を読み込んで適用
-  getSettings().then((settings) => {
-    applySettings(settings);
-  });
+  const settings = await getSettings();
+  applySettings(settings);
 }
 
 // 設定を適用する関数
