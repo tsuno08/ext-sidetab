@@ -1,0 +1,61 @@
+#side-tab-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 280px;
+  height: 100vh;
+  background-color: #ffffff;
+  border-right: 1px solid #e0e0e0;
+  overflow-y: auto;
+  z-index: 50;
+  transition: background-color 0.3s, border-color 0.3s;
+  display: flex;
+  flex-direction: column;
+  color: #000000;
+}
+
+/* ダークモードのスタイル */
+.dark-mode #side-tab-sidebar {
+  background-color: rgb(17 24 39);
+  border-color: rgb(75 85 99);
+  color: #ffffff;
+}
+
+.dark-mode {
+  background-color: rgb(17 24 39);
+  color: rgb(243 244 246);
+}
+
+.tab-list {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 40px);
+  overflow-y: auto;
+}
+
+.new-tab-button {
+  margin: 8px;
+  margin-top: 40px;
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #4b5563;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.new-tab-button:hover {
+  background-color: #f3f4f6;
+}
+
+.dark-mode .new-tab-button {
+  background-color: rgb(31 41 55);
+  border-color: rgb(75 85 99);
+  color: #9ca3af;
+}
+
+.dark-mode .new-tab-button:hover {
+  background-color: rgb(55 65 81);
+}

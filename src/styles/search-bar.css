@@ -1,0 +1,31 @@
+/* 検索バーのスタイル */
+.search-bar {
+  padding: 1rem;
+  border-bottom: 1px solid rgb(226 232 240);
+  transition: border-color 0.3s;
+}
+
+.dark-mode .search-bar {
+  border-color: rgb(75 85 99);
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgb(226 232 240);
+  border-radius: 0.375rem;
+  background-color: white;
+  color: rgb(31 41 55);
+  transition: all 0.3s;
+}
+
+.dark-mode .search-input {
+  background-color: rgb(31 41 55);
+  border-color: rgb(75 85 99);
+  color: rgb(243 244 246);
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(59 130 246);
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Sidebar } from "./components/content/sidebar";
+import { Sidebar } from "./components/sidebar";
 import { IMessage, ISettings } from "./types";
 import { getSettings } from "./utils/storage";
 import "./content.css";

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { ITab } from "../../types";
+import { ITab } from "../types";
 
 type ITabMenuProps = {
   tab: ITab;

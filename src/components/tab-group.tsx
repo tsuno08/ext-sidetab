@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { TabElement } from "./tab-element";
-import { ITabGroup, IMessage } from "../../types";
+import { ITabGroup, IMessage } from "../types";
 
 type ITabGroupProps = {
   group: ITabGroup;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ITab, IMessage } from "../../types";
+import { ITab, IMessage } from "../types";
 import { TabMenu } from "./tab-menu";
 
 type ITabElementProps = {
