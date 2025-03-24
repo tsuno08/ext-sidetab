@@ -6,7 +6,7 @@ import { Message, Settings } from "./types";
 import { getSettings } from "./utils/storage";
 
 // メインの処理
-async function init() {
+const init = async () => {
   const html = document.documentElement;
   html.style.display = "flex"; // display: flexを設定
 
@@ -20,10 +20,10 @@ async function init() {
   // 設定を読み込んで適用
   const settings = await getSettings();
   applySettings(settings);
-}
+};
 
 // 設定を適用する関数
-function applySettings(settings: Settings) {
+const applySettings = (settings: Settings) => {
   const html = document.documentElement;
   const div = document.getElementById("side-tab-sidebar");
   if (div) {
@@ -32,7 +32,7 @@ function applySettings(settings: Settings) {
   html.style.marginLeft = `${settings.sidebarWidth}px`;
   html.style.fontSize = `${settings.fontSize}px`;
   html.classList.toggle("dark-mode", settings.darkMode);
-}
+};
 
 // メッセージリスナーを設定
 chrome.runtime.onMessage.addListener((message: Message) => {
