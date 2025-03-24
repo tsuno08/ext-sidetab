@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { ITabGroup } from "../types";
-import { Tab } from "./Tab";
+import { ITabGroup } from "../../types";
+import { TabElement } from "./tab-element";
 
 type ITabGroupProps = {
   group: ITabGroup;
@@ -21,7 +21,7 @@ export const TabGroup: React.FC<ITabGroupProps> = ({ group }) => {
       {!isCollapsed && (
         <div className="group-content">
           {group.tabs.map((tab) => (
-            <Tab key={tab.id} tab={tab} />
+            <TabElement key={tab.id} tab={tab} />
           ))}
         </div>
       )}
