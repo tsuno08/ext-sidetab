@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ITab, ITabGroup, IMessage } from "../types";
+import { ITab, ITabGroup, IMessage } from "../../types";
 import { SearchBar } from "./SearchBar";
 import { TabGroup as TabGroupComponent } from "./TabGroup";
 

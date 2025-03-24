@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { ISettings, IMessage } from "../types";
-import { getSettings, updateSettings } from "../utils/storage";
+import { ISettings, IMessage } from "../../types";
+import { getSettings, updateSettings } from "../../utils/storage";
 
 export const Popup: React.FC = () => {
   const [settings, setSettings] = useState<ISettings>({
