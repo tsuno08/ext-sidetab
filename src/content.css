@@ -164,4 +164,38 @@
 
 .dark-mode .menu-item:hover {
   background-color: rgb(55 65 81);
+}
+
+.tab-list {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 40px);
+  overflow-y: auto;
+}
+
+.new-tab-button {
+  margin: 8px;
+  margin-top: 40px;
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #4b5563;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.new-tab-button:hover {
+  background-color: #f3f4f6;
+}
+
+.dark-mode .new-tab-button {
+  background-color: rgb(31 41 55);
+  border-color: rgb(75 85 99);
+  color: #9ca3af;
+}
+
+.dark-mode .new-tab-button:hover {
+  background-color: rgb(55 65 81);
 } 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SearchBar } from "./search-bar";
-import { TabGroup as TabGroupComponent } from "./tab-group";
+import { TabGroup } from "./tab-group";
 import { ITab, ITabGroup, IMessage } from "../../types";
 
 export const Sidebar: React.FC = () => {
@@ -39,12 +39,24 @@ export const Sidebar: React.FC = () => {
     {}
   );
 
+  const handleNewTab = async () => {
+    const message: IMessage = {
+      type: "NEW_TAB",
+    };
+    await chrome.runtime.sendMessage(message);
+  };
+
   return (
     <div id="side-tab-sidebar">
       <SearchBar value={searchQuery} onChange={setSearchQuery} />
-      {Object.values(groups).map((group) => (
-        <TabGroupComponent key={group.id} group={group} />
-      ))}
+      <div className="tab-list">
+        {Object.values(groups).map((group) => (
+          <TabGroup key={group.id} group={group} />
+        ))}
+        <button className="new-tab-button" onClick={handleNewTab}>
+          + 新規タブ
+        </button>
+      </div>
     </div>
   );
 };
