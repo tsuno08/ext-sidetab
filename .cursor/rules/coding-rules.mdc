@@ -1,0 +1,64 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# コーディングルール
+
+## 共通
+
+- ファイル名は小文字とハイフン
+
+## TypeScript
+
+### 命名規則
+
+- 型定義: `I`で始まる大文字
+- 関数: 小文字で始まる
+- 変数: 小文字で始まる
+- 定数: 大文字とアンダースコア
+- コンポーネント: 大文字で始まる
+- Props型: `I`で始まり`Props`で終わる
+
+### スタイル
+
+- アロー関数を使用
+- セミコロン必須
+- シングルクォート使用
+- 末尾のカンマはES5スタイル
+- 括弧の間にスペース
+- アロー関数の引数は常に括弧で囲む
+- 1行の最大文字数は80文字
+- interfaceは使わない
+
+## React
+
+### コンポーネント
+
+- コンポーネント名は大文字で始まる
+- Propsの型は`I`で始まり`Props`で終わる
+- デフォルトエクスポートは使用しない
+
+### インポート順序
+
+1. React
+2. 外部ライブラリ
+3. 内部モジュール
+4. スタイル
+
+同じならアルファベット順
+
+```typescript
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { Sidebar } from "./components/Sidebar";
+import { ITab, IMessage } from "./types";
+import "./content.css";
+```
+
+## CSS
+
+### 命名規則
+
+- クラス名: 小文字とハイフン
+- ID: 小文字とハイフン
