@@ -6,7 +6,7 @@ import { IMessage, ISettings } from "./types";
 import { getSettings } from "./utils/storage";
 
 // メインの処理
-async function init() {
+const init = async () => {
   const html = document.documentElement;
   html.style.display = "flex"; // display: flexを設定
 
@@ -23,7 +23,7 @@ async function init() {
 }
 
 // 設定を適用する関数
-function applySettings(settings: ISettings) {
+const applySettings = (settings: ISettings) => {
   const html = document.documentElement;
   const div = document.getElementById("side-tab-sidebar");
   if (div) {
