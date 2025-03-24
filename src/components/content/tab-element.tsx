@@ -70,7 +70,7 @@ export const TabElement: React.FC<ITabElementProps> = ({ tab }) => {
         onDrop={handleDrop}
       >
         <img
-          src={tab.favIconUrl || "images/default-icon.png"}
+          src={tab.favicon || "images/default-icon.png"}
           alt=""
           className="tab-icon"
         />

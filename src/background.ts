@@ -64,17 +64,22 @@ chrome.runtime.onMessage.addListener(
         chrome.tabs.query({}, (tabs) => {
           const tabList = tabs.map((tab) => ({
             id: tab.id!,
-            title: tab.title!,
-            url: tab.url!,
-            favIconUrl: tab.favIconUrl,
-            groupId: tab.groupId,
+            title: tab.title || "",
+            url: tab.url || "",
+            favicon: tab.favIconUrl,
+            groupId: tab.groupId?.toString(),
+            groupTitle: tab.groupId
+              ? chrome.tabGroups.get(tab.groupId).then((group) => group.title)
+              : undefined,
           }));
           sendResponse({ type: "UPDATE_TABS", tabs: tabList });
         });
-        return true;
+        break;
 
       case "ACTIVATE_TAB":
-        chrome.tabs.update(message.tabId, { active: true });
+        if (message.tabId) {
+          chrome.tabs.update(message.tabId, { active: true });
+        }
         break;
 
       case "REORDER_TABS":
@@ -82,17 +87,53 @@ chrome.runtime.onMessage.addListener(
         break;
 
       case "CLOSE_TAB":
-        chrome.tabs.remove(message.tabId);
+        if (message.tabId) {
+          chrome.tabs.remove(message.tabId);
+        }
         break;
 
       case "NEW_TAB":
-        chrome.tabs.create({});
+        chrome.tabs.create({}, (tab) => {
+          if (message.groupId) {
+            chrome.tabs.group({
+              groupId: parseInt(message.groupId),
+              tabIds: tab.id!,
+            });
+          }
+        });
         break;
 
       case "UPDATE_SETTINGS":
         chrome.storage.sync.set({ settings: message.settings });
         break;
+
+      case "DELETE_GROUP":
+        if (message.groupId) {
+          chrome.tabs.query({ groupId: parseInt(message.groupId) }, (tabs) => {
+            tabs.forEach((tab) => {
+              if (tab.id) {
+                chrome.tabs.group({
+                  groupId: chrome.tabs.TAB_ID_NONE,
+                  tabIds: tab.id,
+                });
+              }
+            });
+          });
+        }
+        break;
+
+      case "RENAME_GROUP":
+        if (message.groupId && message.newTitle) {
+          const groupId = parseInt(message.groupId);
+          if (!isNaN(groupId)) {
+            chrome.tabGroups.update(groupId, {
+              title: message.newTitle,
+            });
+          }
+        }
+        break;
     }
+    return true;
   }
 );
 
