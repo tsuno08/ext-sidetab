@@ -1,9 +1,9 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Sidebar } from "./components/content/sidebar";
-import "./content.css";
 import { IMessage, ISettings } from "./types";
 import { getSettings } from "./utils/storage";
+import "./content.css";
 
 // メインの処理
 const init = async () => {
@@ -20,7 +20,7 @@ const init = async () => {
   // 設定を読み込んで適用
   const settings = await getSettings();
   applySettings(settings);
-}
+};
 
 // 設定を適用する関数
 const applySettings = (settings: ISettings) => {
@@ -32,7 +32,7 @@ const applySettings = (settings: ISettings) => {
   html.style.marginLeft = `${settings.sidebarWidth}px`;
   html.style.fontSize = `${settings.fontSize}px`;
   html.classList.toggle("dark-mode", settings.darkMode);
-}
+};
 
 // メッセージリスナーを設定
 chrome.runtime.onMessage.addListener((message: IMessage) => {

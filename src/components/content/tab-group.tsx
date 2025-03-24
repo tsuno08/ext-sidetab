@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { ITabGroup } from "../../types";
 import { TabElement } from "./tab-element";
+import { ITabGroup } from "../../types";
 
 type ITabGroupProps = {
   group: ITabGroup;

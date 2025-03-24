@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { ITab, ITabGroup, IMessage } from "../../types";
 import { SearchBar } from "./search-bar";
 import { TabGroup as TabGroupComponent } from "./tab-group";
+import { ITab, ITabGroup, IMessage } from "../../types";
 
 export const Sidebar: React.FC = () => {
   const [tabs, setTabs] = useState<ITab[]>([]);
