@@ -1,6 +1,6 @@
 import { ISettings } from "../types";
 
-const DEFAULT_SETTINGS: ISettings = {
+export const DEFAULT_SETTINGS: ISettings = {
   sidebarWidth: 280,
   darkMode: false,
   fontSize: 14,

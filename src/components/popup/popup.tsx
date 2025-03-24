@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { ISettings, IMessage } from "../../types";
-import { getSettings, updateSettings } from "../../utils/storage";
+import {
+  DEFAULT_SETTINGS,
+  getSettings,
+  updateSettings,
+} from "../../utils/storage";
 
 export const Popup: React.FC = () => {
-  const [settings, setSettings] = useState<ISettings>({
-    sidebarWidth: 280,
-    darkMode: false,
-    fontSize: 14,
-  });
+  const [settings, setSettings] = useState<ISettings>(DEFAULT_SETTINGS);
 
   useEffect(() => {
     (async () => {
