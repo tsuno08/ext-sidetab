@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { ITab } from "../../types";
 
 type ITabMenuProps = {
@@ -12,6 +12,21 @@ export const TabMenu: React.FC<ITabMenuProps> = ({
   onClose,
   position,
 }) => {
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
   const handleCloseTab = () => {
     chrome.runtime.sendMessage({
       type: "CLOSE_TAB",
@@ -34,6 +49,7 @@ export const TabMenu: React.FC<ITabMenuProps> = ({
 
   return (
     <div
+      ref={menuRef}
       className="tab-menu"
       style={{
         position: "fixed",
