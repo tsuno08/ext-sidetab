@@ -53,8 +53,6 @@ export const Popup: React.FC = () => {
               handleChange("sidebarWidth", Number(e.target.value))
             }
             className="form-input"
-            min="200"
-            max="500"
           />
         </div>
         <div className="form-group">
@@ -64,8 +62,6 @@ export const Popup: React.FC = () => {
             value={settings.fontSize}
             onChange={(e) => handleChange("fontSize", Number(e.target.value))}
             className="form-input"
-            min="12"
-            max="20"
           />
         </div>
         <div className="checkbox-group">
