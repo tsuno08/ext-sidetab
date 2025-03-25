@@ -80,11 +80,7 @@ export const TabElement: React.FC<ITabElementProps> = ({ tab }) => {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
-        <img
-          src={tab.favicon || "images/default-icon.png"}
-          alt=""
-          className="tab-icon"
-        />
+        <img src={tab.favicon} alt="" className="tab-icon" />
         <span className="tab-title">{tab.title}</span>
       </div>
       {menuPosition && (

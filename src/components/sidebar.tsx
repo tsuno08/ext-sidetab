@@ -121,11 +121,7 @@ export const Sidebar: React.FC<ISidebarProps> = ({ settings }) => {
                 }}
                 title={tab.title}
               >
-                <img
-                  src={tab.favicon || "images/default-icon.png"}
-                  alt=""
-                  className="mini-tab-icon"
-                />
+                <img src={tab.favicon} alt="" className="mini-tab-icon" />
               </div>
             ))}
           </div>

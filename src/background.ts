@@ -12,7 +12,8 @@ const sendTabsToContentScript = (): void => {
           id: tab.id!,
           title: tab.title!,
           url: tab.url!,
-          favIconUrl: tab.favIconUrl,
+          favicon:
+            tab.favIconUrl || chrome.runtime.getURL("images/default-icon.png"),
           groupId: tab.groupId?.toString(),
           groupTitle: group ? group.title : "未分類",
         };
@@ -72,7 +73,9 @@ chrome.runtime.onMessage.addListener(
             id: tab.id!,
             title: tab.title || "",
             url: tab.url || "",
-            favicon: tab.favIconUrl,
+            favicon:
+              tab.favIconUrl ||
+              chrome.runtime.getURL("images/default-icon.png"),
             groupId: tab.groupId?.toString(),
             groupTitle: tab.groupId
               ? chrome.tabGroups.get(tab.groupId).then((group) => group.title)

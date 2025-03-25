@@ -19,6 +19,12 @@
       "css": ["dist/content.css"]
     }
   ],
+  "web_accessible_resources": [
+    {
+      "resources": ["images/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
   "action": {
     "default_title": "Side Tab",
     "default_popup": "public/popup.html",
