@@ -1,21 +1,25 @@
 /* 検索バーのスタイル */
 .search-bar {
-  padding: 1rem;
-  border-bottom: 1px solid rgb(226 232 240);
-  transition: border-color 0.3s;
+  flex: 1;
+  min-width: 0;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 0;
 }
 
 .dark-mode .search-bar {
-  border-color: rgb(75 85 99);
+  background-color: rgb(17 24 39);
+  color: #ffffff;
 }
 
 .search-input {
   width: 100%;
-  padding: 0.5rem 0.75rem;
   border: 1px solid rgb(226 232 240);
-  border-radius: 0.375rem;
-  background-color: white;
-  color: rgb(31 41 55);
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: #ffffff;
+  color: #000000;
   transition: all 0.3s;
 }
 
@@ -28,4 +32,12 @@
 .search-input:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgb(59 130 246);
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+.dark-mode .search-input::placeholder {
+  color: #6b7280;
 }

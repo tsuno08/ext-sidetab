@@ -1,5 +1,11 @@
 .tab-group {
   margin-bottom: 0.5rem;
+  border: 1px solid rgb(224, 224, 224);
+  border-radius: 0.25rem;
+}
+
+.dark-mode .tab-group {
+  border-color: rgb(75 85 99);
 }
 
 .group-header {

@@ -89,42 +89,6 @@
   background-color: rgb(31 41 55);
 }
 
-.search-bar {
-  flex: 1;
-  min-width: 0;
-  background-color: #ffffff;
-  color: #000000;
-  padding: 0;
-}
-
-.dark-mode .search-bar {
-  background-color: rgb(17 24 39);
-  color: #ffffff;
-}
-
-.search-input {
-  width: 100%;
-  padding: 8px;
-  border-radius: 4px;
-  font-size: 13px;
-  background-color: #ffffff;
-  color: #000000;
-}
-
-.dark-mode .search-input {
-  background-color: rgb(31 41 55);
-  border-color: rgb(75 85 99);
-  color: #ffffff;
-}
-
-.search-input::placeholder {
-  color: #9ca3af;
-}
-
-.dark-mode .search-input::placeholder {
-  color: #6b7280;
-}
-
 .tab-list {
   flex: 1;
   overflow-y: auto;

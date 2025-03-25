@@ -12,7 +12,7 @@
   border-color: rgb(75 85 99);
 }
 
-.menu-item {
+.tab-menu-item {
   display: block;
   width: 100%;
   padding: 8px 16px;
@@ -24,14 +24,14 @@
   font-size: 14px;
 }
 
-.dark-mode .menu-item {
+.dark-mode .tab-menu-item {
   color: #ffffff;
 }
 
-.menu-item:hover {
+.tab-menu-item:hover {
   background-color: #f3f4f6;
 }
 
-.dark-mode .menu-item:hover {
+.dark-mode .tab-menu-item:hover {
   background-color: rgb(55 65 81);
 }

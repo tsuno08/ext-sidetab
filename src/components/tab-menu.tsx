@@ -58,13 +58,13 @@ export const TabMenu: React.FC<ITabMenuProps> = ({
         zIndex: 1000,
       }}
     >
-      <button className="menu-item" onClick={handleCloseTab}>
+      <button className="tab-menu-item" onClick={handleCloseTab}>
         タブを閉じる
       </button>
-      <button className="menu-item" onClick={handleNewTab}>
+      <button className="tab-menu-item" onClick={handleNewTab}>
         新規タブ
       </button>
-      <button className="menu-item" onClick={handleCopyLink}>
+      <button className="tab-menu-item" onClick={handleCopyLink}>
         リンクをコピー
       </button>
     </div>
