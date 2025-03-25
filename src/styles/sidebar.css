@@ -7,14 +7,26 @@
   background-color: #ffffff;
   border-right: 1px solid #e0e0e0;
   z-index: 2147483640;
-  transition: width 0.3s ease;
   display: flex;
   flex-direction: column;
   color: #000000;
+  animation: slide-in 0.3s ease-out;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 #side-tab-sidebar.collapsed {
   width: 48px !important;
+  transition: width 0.3s ease;
 }
 
 /* ダークモードのスタイル */
