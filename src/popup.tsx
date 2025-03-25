@@ -1,31 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import { IMessage, ISettings } from "./types";
 import { DEFAULT_SETTINGS, getSettings, updateSettings } from "./utils/storage";
 import "./popup.css";
 
 const Popup: React.FC = () => {
-  const [settings, setSettings] = useState<ISettings>(DEFAULT_SETTINGS);
+  const sidebarWidthRef = useRef<HTMLInputElement>(null);
+  const fontSizeRef = useRef<HTMLInputElement>(null);
+  const darkModeRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     (async () => {
       const s = await getSettings();
-      setSettings(s);
+
+      // 初期値を設定
+      if (sidebarWidthRef.current) {
+        sidebarWidthRef.current.value = s.sidebarWidth.toString();
+      }
+      if (fontSizeRef.current) {
+        fontSizeRef.current.value = s.fontSize.toString();
+      }
+      if (darkModeRef.current) {
+        darkModeRef.current.checked = s.darkMode;
+      }
       document.body.classList.toggle("dark-mode", s.darkMode);
     })();
   }, []);
 
-  const handleChange = async (
-    key: keyof ISettings,
-    value: ISettings[keyof ISettings]
-  ) => {
-    const newSettings = { ...settings, [key]: value };
-    setSettings(newSettings);
-    await updateSettings(newSettings);
+  const handleSave = async () => {
+    if (
+      !sidebarWidthRef.current ||
+      !fontSizeRef.current ||
+      !darkModeRef.current
+    )
+      return;
 
-    if (key === "darkMode") {
-      document.body.classList.toggle("dark-mode", value as boolean);
-    }
+    const newSettings: ISettings = {
+      sidebarWidth:
+        Number(sidebarWidthRef.current.value) || DEFAULT_SETTINGS.sidebarWidth,
+      fontSize: Number(fontSizeRef.current.value) || DEFAULT_SETTINGS.fontSize,
+      darkMode: darkModeRef.current.checked,
+    };
+
+    await updateSettings(newSettings);
 
     // コンテンツスクリプトに設定変更を通知
     const message: IMessage = {
@@ -36,6 +53,9 @@ const Popup: React.FC = () => {
     if (tabs[0]?.id) {
       await chrome.tabs.sendMessage(tabs[0].id, message);
     }
+
+    // ダークモードの即時反映
+    document.body.classList.toggle("dark-mode", newSettings.darkMode);
   };
 
   return (
@@ -46,34 +66,39 @@ const Popup: React.FC = () => {
           <label className="form-label">サイドバーの幅 (px)</label>
           <input
             type="number"
-            value={settings.sidebarWidth}
-            onChange={(e) =>
-              handleChange("sidebarWidth", Number(e.target.value))
-            }
+            ref={sidebarWidthRef}
+            defaultValue={DEFAULT_SETTINGS.sidebarWidth}
             className="form-input"
+            min="100"
+            max="800"
           />
         </div>
         <div className="form-group">
           <label className="form-label">フォントサイズ (px)</label>
           <input
             type="number"
-            value={settings.fontSize}
-            onChange={(e) => handleChange("fontSize", Number(e.target.value))}
+            ref={fontSizeRef}
+            defaultValue={DEFAULT_SETTINGS.fontSize}
             className="form-input"
+            min="8"
+            max="24"
           />
         </div>
         <div className="checkbox-group">
           <input
             type="checkbox"
             id="darkMode"
-            checked={settings.darkMode}
-            onChange={(e) => handleChange("darkMode", e.target.checked)}
+            ref={darkModeRef}
+            defaultChecked={DEFAULT_SETTINGS.darkMode}
             className="checkbox-input"
           />
           <label htmlFor="darkMode" className="checkbox-label">
             ダークモード
           </label>
         </div>
+        <button className="save-button" onClick={handleSave}>
+          保存
+        </button>
       </div>
     </div>
   );
