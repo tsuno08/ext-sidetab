@@ -2,15 +2,19 @@
   position: fixed;
   left: 0;
   top: 0;
-  width: 280px;
+  width: var(--sidebar-width, 280px);
   height: 100vh;
   background-color: #ffffff;
   border-right: 1px solid #e0e0e0;
-  z-index: 50;
-  transition: background-color 0.3s, border-color 0.3s;
+  z-index: 2147483640;
+  transition: width 0.3s ease;
   display: flex;
   flex-direction: column;
   color: #000000;
+}
+
+#side-tab-sidebar.collapsed {
+  width: 48px !important;
 }
 
 /* ダークモードのスタイル */
@@ -20,9 +24,91 @@
   color: #ffffff;
 }
 
-.dark-mode {
+.sidebar-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark-mode .sidebar-header {
   background-color: rgb(17 24 39);
-  color: rgb(243 244 246);
+  border-color: rgb(75 85 99);
+  color: #ffffff;
+}
+
+.collapse-button {
+  position: absolute;
+  right: -24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid #e5e7eb;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  background-color: #ffffff;
+  color: #4b5563;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 2147483639;
+}
+
+.collapse-button:hover {
+  background-color: #f3f4f6;
+}
+
+.dark-mode .collapse-button {
+  background-color: rgb(17 24 39);
+  border-color: rgb(75 85 99);
+  color: #ffffff;
+}
+
+.dark-mode .collapse-button:hover {
+  background-color: rgb(31 41 55);
+}
+
+.search-bar {
+  flex: 1;
+  min-width: 0;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark-mode .search-bar {
+  background-color: rgb(17 24 39);
+  color: #ffffff;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark-mode .search-input {
+  background-color: rgb(31 41 55);
+  border-color: rgb(75 85 99);
+  color: #ffffff;
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+.dark-mode .search-input::placeholder {
+  color: #6b7280;
 }
 
 .tab-list {
@@ -31,6 +117,59 @@
   flex: 1;
   overflow-y: auto;
   min-height: 0;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark-mode .tab-list {
+  background-color: rgb(17 24 39);
+  color: #ffffff;
+}
+
+/* ミニタブ表示のスタイル */
+.mini-tabs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 4px;
+  gap: 8px;
+  overflow-y: auto;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark-mode .mini-tabs {
+  background-color: rgb(17 24 39);
+  color: #ffffff;
+}
+
+.mini-tab {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #4b5563;
+}
+
+.dark-mode .mini-tab {
+  color: #ffffff;
+}
+
+.mini-tab:hover {
+  background-color: rgb(241 245 249);
+}
+
+.dark-mode .mini-tab:hover {
+  background-color: rgb(31 41 55);
+}
+
+.mini-tab-icon {
+  width: 16px;
+  height: 16px;
 }
 
 .new-tab-button {
@@ -51,11 +190,28 @@
 }
 
 .dark-mode .new-tab-button {
-  background-color: rgb(31 41 55);
+  background-color: rgb(17 24 39);
   border-color: rgb(75 85 99);
-  color: #9ca3af;
+  color: #ffffff;
 }
 
 .dark-mode .new-tab-button:hover {
-  background-color: rgb(55 65 81);
+  background-color: rgb(31 41 55);
+}
+
+.tab-menu,
+.group-menu {
+  z-index: 2147483641;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #000000;
+}
+
+.dark-mode .tab-menu,
+.dark-mode .group-menu {
+  background-color: rgb(17 24 39);
+  border-color: rgb(75 85 99);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
 }
