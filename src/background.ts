@@ -68,22 +68,39 @@ chrome.runtime.onMessage.addListener(
   (message: IMessage, sender, sendResponse) => {
     switch (message.type) {
       case "GET_TABS":
-        chrome.tabs.query({}, (tabs) => {
-          const tabList = tabs.map((tab) => ({
-            id: tab.id!,
-            title: tab.title || "",
-            url: tab.url || "",
-            favicon:
-              tab.favIconUrl ||
-              chrome.runtime.getURL("images/default-icon.png"),
-            groupId: tab.groupId?.toString(),
-            groupTitle: tab.groupId
-              ? chrome.tabGroups.get(tab.groupId).then((group) => group.title)
-              : undefined,
-          }));
-          sendResponse({ type: "UPDATE_TABS", tabs: tabList });
+        chrome.tabs.query({}, async (tabs) => {
+          try {
+            const tabList = await Promise.all(
+              tabs.map(async (tab) => {
+                let groupTitle: string | undefined = undefined;
+                if (tab.groupId && tab.groupId !== chrome.tabs.TAB_ID_NONE) {
+                  try {
+                    const group = await chrome.tabGroups.get(tab.groupId);
+                    groupTitle = group.title;
+                  } catch (error) {
+                    console.error("タブグループの取得に失敗:", error);
+                  }
+                }
+
+                return {
+                  id: tab.id!,
+                  title: tab.title || "",
+                  url: tab.url || "",
+                  favicon:
+                    tab.favIconUrl ||
+                    chrome.runtime.getURL("images/default-icon.png"),
+                  groupId: tab.groupId?.toString(),
+                  groupTitle: groupTitle || "未分類",
+                };
+              })
+            );
+            sendResponse({ type: "UPDATE_TABS", tabs: tabList });
+          } catch (error) {
+            console.error("タブ情報の取得に失敗:", error);
+            sendResponse({ type: "UPDATE_TABS", tabs: [] });
+          }
         });
-        break;
+        return true; // 非同期レスポンスのために必要
 
       case "ACTIVATE_TAB":
         if (message.tabId) {
