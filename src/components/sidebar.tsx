@@ -2,22 +2,34 @@ import React, { useEffect, useState } from "react";
 import { SearchBar } from "./search-bar";
 import { TabGroup } from "./tab-group";
 import { ITab, ITabGroup, IMessage, ISettings } from "../types";
+import { getSettings } from "../utils/storage";
 
 interface ISidebarProps {
-  settings: ISettings;
+  tabs: ITab[];
 }
 
-export const Sidebar: React.FC<ISidebarProps> = ({ settings }) => {
-  const [tabs, setTabs] = useState<ITab[]>([]);
+export const Sidebar: React.FC<ISidebarProps> = ({ tabs: initialTabs }) => {
+  const [tabs, setTabs] = useState<ITab[]>(initialTabs);
   const [searchQuery, setSearchQuery] = useState("");
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [currentSettings, setCurrentSettings] = useState(settings);
+  const [settings, setSettings] = useState<ISettings | null>(null);
 
   useEffect(() => {
-    chrome.runtime.sendMessage({ type: "GET_TABS" });
+    const initialize = async () => {
+      const s = await getSettings();
+      setSettings(s);
+      document.body.classList.toggle("dark-mode", s.darkMode);
+    };
+    initialize();
+  }, []);
+
+  useEffect(() => {
     const messageListener = (message: IMessage) => {
       if (message.type === "UPDATE_TABS" && message.tabs) {
         setTabs(message.tabs);
+      } else if (message.type === "UPDATE_SETTINGS" && message.settings) {
+        setSettings(message.settings);
+        document.body.classList.toggle("dark-mode", message.settings.darkMode);
       }
     };
 
@@ -26,30 +38,12 @@ export const Sidebar: React.FC<ISidebarProps> = ({ settings }) => {
   }, []);
 
   useEffect(() => {
-    // 設定の更新を監視
-    const handleSettingsUpdate = (event: CustomEvent<ISettings>) => {
-      setCurrentSettings(event.detail);
-    };
+    if (!settings) return;
 
-    window.addEventListener(
-      "settings-updated",
-      handleSettingsUpdate as EventListener
-    );
-    return () => {
-      window.removeEventListener(
-        "settings-updated",
-        handleSettingsUpdate as EventListener
-      );
-    };
-  }, []);
-
-  useEffect(() => {
     // サイドバーの状態が変更されたときにページのマージンを調整
     const html = document.documentElement;
-    html.style.marginLeft = isCollapsed
-      ? "48px"
-      : `${currentSettings.sidebarWidth}px`;
-  }, [isCollapsed, currentSettings.sidebarWidth]);
+    html.style.marginLeft = isCollapsed ? "48px" : `${settings.sidebarWidth}px`;
+  }, [isCollapsed, settings]);
 
   const filteredTabs = tabs.filter((tab) =>
     tab.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -82,13 +76,17 @@ export const Sidebar: React.FC<ISidebarProps> = ({ settings }) => {
     setIsCollapsed(!isCollapsed);
   };
 
+  if (!settings) {
+    return null;
+  }
+
   return (
     <div
       id="side-tab-sidebar"
       className={`${isCollapsed ? "collapsed" : ""} ${
-        currentSettings.darkMode ? "dark-mode" : ""
+        settings.darkMode ? "dark-mode" : ""
       }`}
-      style={{ fontSize: `${currentSettings.fontSize}px` }}
+      style={{ fontSize: `${settings.fontSize}px` }}
     >
       <div className="sidebar-header">
         {!isCollapsed && (

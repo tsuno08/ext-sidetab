@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { IMessage, ISettings } from "./types";
 import { DEFAULT_SETTINGS, getSettings, updateSettings } from "./utils/storage";
@@ -8,6 +8,8 @@ const Popup: React.FC = () => {
   const sidebarWidthRef = useRef<HTMLInputElement>(null);
   const fontSizeRef = useRef<HTMLInputElement>(null);
   const darkModeRef = useRef<HTMLInputElement>(null);
+  const [excludedSites, setExcludedSites] = useState<string[]>([]);
+  const [newSite, setNewSite] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -23,6 +25,7 @@ const Popup: React.FC = () => {
       if (darkModeRef.current) {
         darkModeRef.current.checked = s.darkMode;
       }
+      setExcludedSites(s.excludedSites || []);
       document.body.classList.toggle("dark-mode", s.darkMode);
     })();
   }, []);
@@ -40,6 +43,7 @@ const Popup: React.FC = () => {
         Number(sidebarWidthRef.current.value) || DEFAULT_SETTINGS.sidebarWidth,
       fontSize: Number(fontSizeRef.current.value) || DEFAULT_SETTINGS.fontSize,
       darkMode: darkModeRef.current.checked,
+      excludedSites: excludedSites,
     };
 
     await updateSettings(newSettings);
@@ -56,6 +60,17 @@ const Popup: React.FC = () => {
 
     // ダークモードの即時反映
     document.body.classList.toggle("dark-mode", newSettings.darkMode);
+  };
+
+  const handleAddSite = () => {
+    if (newSite && !excludedSites.includes(newSite)) {
+      setExcludedSites([...excludedSites, newSite]);
+      setNewSite("");
+    }
+  };
+
+  const handleRemoveSite = (site: string) => {
+    setExcludedSites(excludedSites.filter((s) => s !== site));
   };
 
   return (
@@ -95,6 +110,38 @@ const Popup: React.FC = () => {
           <label htmlFor="darkMode" className="checkbox-label">
             ダークモード
           </label>
+        </div>
+        <div className="form-group">
+          <label className="form-label">サイドバーを表示しないサイト</label>
+          <div className="excluded-sites-input">
+            <input
+              type="text"
+              value={newSite}
+              onChange={(e) => setNewSite(e.target.value)}
+              placeholder="例: *.example.com"
+              className="form-input"
+            />
+            <button
+              className="add-button"
+              onClick={handleAddSite}
+              disabled={!newSite}
+            >
+              追加
+            </button>
+          </div>
+          <div className="excluded-sites-list">
+            {excludedSites.map((site) => (
+              <div key={site} className="excluded-site-item">
+                <span>{site}</span>
+                <button
+                  className="remove-button"
+                  onClick={() => handleRemoveSite(site)}
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
         <button className="save-button" onClick={handleSave}>
           保存

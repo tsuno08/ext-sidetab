@@ -4,6 +4,7 @@ export const DEFAULT_SETTINGS: ISettings = {
   sidebarWidth: 280,
   darkMode: false,
   fontSize: 14,
+  excludedSites: [],
 };
 
 export const getSettings = async (): Promise<ISettings> => {

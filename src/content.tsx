@@ -1,50 +1,88 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Sidebar } from "./components/sidebar";
-import { IMessage, ISettings } from "./types";
+import { ITab, IMessage, ISettings } from "./types";
 import { getSettings } from "./utils/storage";
 import "./content.css";
 
-let currentSettings: ISettings;
+const Content: React.FC = () => {
+  const [tabs, setTabs] = useState<ITab[]>([]);
+  const [settings, setSettings] = useState<ISettings | null>(null);
 
-// メインの処理
-const init = async () => {
-  const html = document.documentElement;
-  html.style.display = "flex"; // display: flexを設定
+  const checkExcludedSite = (url: string, excludedSites: string[]): boolean => {
+    const urlObj = new URL(url);
+    return excludedSites.some((site) => {
+      // ワイルドカードを正規表現に変換
+      const pattern = site
+        .replace(/\./g, "\\.")
+        .replace(/\*/g, ".*")
+        .replace(/^https?:\/\//, "");
 
-  const sidebarContainer = document.createElement("div");
-  sidebarContainer.id = "side-tab-root";
-  html.insertBefore(sidebarContainer, html.firstChild);
+      // ドメイン部分のみを比較
+      return new RegExp(`^${pattern}$`).test(urlObj.hostname);
+    });
+  };
 
-  // 設定を読み込んで適用
-  currentSettings = await getSettings();
+  useEffect(() => {
+    const initialize = async () => {
+      const s = await getSettings();
 
-  // CSSカスタムプロパティを設定
-  document.documentElement.style.setProperty(
-    "--sidebar-width",
-    `${currentSettings.sidebarWidth}px`
+      // 除外サイトのチェック
+      const currentUrl = window.location.href;
+      if (checkExcludedSite(currentUrl, s.excludedSites)) {
+        return;
+      }
+
+      setSettings(s);
+      document.body.classList.toggle("dark-mode", s.darkMode);
+    };
+
+    initialize();
+  }, []);
+
+  useEffect(() => {
+    const messageHandler = async (message: IMessage) => {
+      if (message.type === "UPDATE_TABS") {
+        setTabs(message.tabs || []);
+      } else if (message.type === "UPDATE_SETTINGS") {
+        if (!message.settings) return;
+
+        // 除外サイトのチェック
+        const currentUrl = window.location.href;
+        if (checkExcludedSite(currentUrl, message.settings.excludedSites)) {
+          const root = document.getElementById("side-tab-root");
+          if (root) {
+            root.remove();
+          }
+          return;
+        }
+
+        setSettings(message.settings);
+        document.body.classList.toggle("dark-mode", message.settings.darkMode);
+      }
+    };
+
+    chrome.runtime.onMessage.addListener(messageHandler);
+    return () => {
+      chrome.runtime.onMessage.removeListener(messageHandler);
+    };
+  }, []);
+
+  if (!settings) {
+    return null;
+  }
+
+  return (
+    <div
+      id="side-tab-root"
+      style={{ width: settings.sidebarWidth, fontSize: settings.fontSize }}
+    >
+      <Sidebar tabs={tabs} />
+    </div>
   );
-
-  const root = createRoot(sidebarContainer);
-  root.render(<Sidebar settings={currentSettings} />);
 };
 
-// メッセージリスナーを設定
-chrome.runtime.onMessage.addListener((message: IMessage) => {
-  if (message.type === "UPDATE_SETTINGS" && message.settings) {
-    currentSettings = message.settings;
-    // CSSカスタムプロパティを更新
-    document.documentElement.style.setProperty(
-      "--sidebar-width",
-      `${currentSettings.sidebarWidth}px`
-    );
-
-    // 設定の変更をイベントとして発行
-    window.dispatchEvent(
-      new CustomEvent("settings-updated", { detail: currentSettings })
-    );
-  }
-});
-
-// 初期化の実行
-init();
+const root = document.createElement("div");
+root.id = "side-tab-root";
+document.body.appendChild(root);
+createRoot(root).render(<Content />);

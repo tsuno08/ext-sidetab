@@ -28,6 +28,7 @@ export interface ISettings {
   sidebarWidth: number;
   darkMode: boolean;
   fontSize: number;
+  excludedSites: string[];
 }
 
 export interface IMessage {
