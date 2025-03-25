@@ -11,6 +11,7 @@ export const TabElement: React.FC<ITabElementProps> = ({ tab }) => {
     x: number;
     y: number;
   } | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleClick = (e: React.MouseEvent) => {
     if (e.button === 0) {
@@ -33,11 +34,20 @@ export const TabElement: React.FC<ITabElementProps> = ({ tab }) => {
 
   const handleDragStart = (e: React.DragEvent) => {
     e.dataTransfer.setData("text/plain", tab.id.toString());
+    setIsDragging(true);
+    e.currentTarget.classList.add("dragging");
+  };
+
+  const handleDragEnd = (e: React.DragEvent) => {
+    setIsDragging(false);
+    e.currentTarget.classList.remove("dragging");
   };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
-    e.currentTarget.classList.add("bg-tab-hover");
+    if (!isDragging) {
+      e.currentTarget.classList.add("bg-tab-hover");
+    }
   };
 
   const handleDragLeave = (e: React.DragEvent) => {
@@ -65,6 +75,7 @@ export const TabElement: React.FC<ITabElementProps> = ({ tab }) => {
         onClick={handleClick}
         onContextMenu={handleContextMenu}
         onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}

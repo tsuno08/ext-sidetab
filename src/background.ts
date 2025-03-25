@@ -21,15 +21,14 @@ const sendTabsToContentScript = (): void => {
       // すべてのタブにメッセージを送信
       tabs.forEach((tab) => {
         if (tab.id) {
-          chrome.tabs
-            .sendMessage(tab.id, {
+          try {
+            chrome.tabs.sendMessage(tab.id, {
               type: "UPDATE_TABS",
               tabs: tabsWithGroups,
-            })
-            .catch(() => {
-              // メッセージ送信に失敗した場合は無視
-              // （content scriptが読み込まれていないタブなど）
             });
+          } catch (error) {
+            console.error("メッセージ送信に失敗しました", error);
+          }
         }
       });
     });
@@ -41,19 +40,26 @@ const reorderTabs = async (
   sourceId: number,
   targetId: number
 ): Promise<void> => {
-  const tabs = await chrome.tabs.query({});
-  const sourceIndex = tabs.findIndex((tab) => tab.id === sourceId);
-  const targetIndex = tabs.findIndex((tab) => tab.id === targetId);
+  try {
+    const tabs = await chrome.tabs.query({});
+    const sourceTab = tabs.find((tab) => tab.id === sourceId);
+    const targetTab = tabs.find((tab) => tab.id === targetId);
 
-  if (sourceIndex === -1 || targetIndex === -1) return;
+    if (!sourceTab || !targetTab) return;
 
-  // タブを移動
-  await chrome.tabs.move(sourceId, {
-    index: targetIndex,
-  });
+    // 移動先のインデックスを計算
+    // ドロップ先のタブの前か後ろかを決定
+    const newIndex =
+      sourceTab.index < targetTab.index ? targetTab.index : targetTab.index + 1;
 
-  // タブリストを更新
-  sendTabsToContentScript();
+    // タブを移動
+    await chrome.tabs.move(sourceId, { index: newIndex });
+
+    // タブリストを更新
+    sendTabsToContentScript();
+  } catch (error) {
+    console.error("タブの並び替えに失敗しました:", error);
+  }
 };
 
 // タブの更新を処理
@@ -83,7 +89,9 @@ chrome.runtime.onMessage.addListener(
         break;
 
       case "REORDER_TABS":
-        chrome.tabs.move(message.sourceId, { index: message.targetId });
+        if (message.sourceId && message.targetId) {
+          reorderTabs(message.sourceId, message.targetId);
+        }
         break;
 
       case "CLOSE_TAB":
