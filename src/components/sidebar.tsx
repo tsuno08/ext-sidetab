@@ -53,10 +53,10 @@ export const Sidebar: React.FC = () => {
         {Object.values(groups).map((group) => (
           <TabGroup key={group.id} group={group} />
         ))}
-        <button className="new-tab-button" onClick={handleNewTab}>
-          + 新規タブ
-        </button>
       </div>
+      <button className="new-tab-button" onClick={handleNewTab}>
+        + 新規タブ
+      </button>
     </div>
   );
 };
